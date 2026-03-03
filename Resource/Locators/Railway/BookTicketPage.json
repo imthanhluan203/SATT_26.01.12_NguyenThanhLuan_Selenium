@@ -1,0 +1,8 @@
+{
+  "dynamicXpathFormField" : "//select[@name='%s']",
+  "dynamicXpathBookedTicketTable" : "(//tr[th[text()='%1$s']]//following-sibling::tr//td)[count(//tr//th[text()='%1$s']//preceding-sibling::th) + 1]",
+  "txtMessage" : "//h1[text()='Ticket booked successfully!']",
+  "txtDepartStation" : "//select[@name='DepartStation']/option[@selected]",
+  "txtArriveStation" : "//select[@name='ArriveStation']/option[@selected]",
+  "btnSubmit" : "//input[@type='submit']"
+}

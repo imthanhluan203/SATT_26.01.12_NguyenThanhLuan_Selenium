@@ -3,36 +3,37 @@ import Common.JsonReader;
 import Common.Utilities;
 import DataObjects.UserInfo;
 import Enum.PageTitle;
+import Enum.ObjectType;
 
 public class RegisterPage extends GeneralPage {
-		
+	private static JsonReader registerReader = new JsonReader(ObjectType.Railway , RegisterPage.class);
 	public String getThankyouMessage() {
-		return Utilities.getTextElement(JsonReader.getLocator(PageTitle.REGISTER, "lblThankyouMessage"));
+		return Utilities.getTextElement(registerReader.getLocator( "lblThankyouMessage"));
 	}
 	
 	public String getWelcomeMessage() {
-		return Utilities.getTextElement(JsonReader.getLocator(PageTitle.REGISTER, "lblWelcomeMessage"));
+		return Utilities.getTextElement(registerReader.getLocator( "lblWelcomeMessage"));
 	}
 	
 	public String getErrorMessage() {
-		return Utilities.getTextElement(JsonReader.getLocator(PageTitle.REGISTER, "lblErrorMessage"));
+		return Utilities.getTextElement(registerReader.getLocator( "lblErrorMessage"));
 	}
 	
 	public String getErrorInvalidPassword() {
-		return Utilities.getTextElement(JsonReader.getLocator(PageTitle.REGISTER, "lblErrorInvalidPassword"));
+		return Utilities.getTextElement(registerReader.getLocator( "lblErrorInvalidPassword"));
 	}
 	
 	public String getErrorInvalidPid() {
-		return Utilities.getTextElement(JsonReader.getLocator(PageTitle.REGISTER, "lblErrorInvalidPid"));
+		return Utilities.getTextElement(registerReader.getLocator( "lblErrorInvalidPid"));
 	}
 	
 	public RegisterPage register(UserInfo myInfo)  {
-		Utilities.scrollToElement(JsonReader.getLocator(PageTitle.REGISTER, "btnSubmit"));
-		Utilities.enter(JsonReader.getLocator(PageTitle.REGISTER, "txtUsername"), myInfo.getName());
-		Utilities.enter(JsonReader.getLocator(PageTitle.REGISTER, "txtPassword"), myInfo.getPassword());
-		Utilities.enter(JsonReader.getLocator(PageTitle.REGISTER, "txtConfirmPassword"), myInfo.getPassword());
-		Utilities.enter(JsonReader.getLocator(PageTitle.REGISTER, "txtPassport"), myInfo.getPid());
-		Utilities.click(JsonReader.getLocator(PageTitle.REGISTER, "btnSubmit"));
+		Utilities.scrollToElement(registerReader.getLocator( "btnSubmit"));
+		Utilities.enter(registerReader.getLocator( "txtUsername"), myInfo.getName());
+		Utilities.enter(registerReader.getLocator( "txtPassword"), myInfo.getPassword());
+		Utilities.enter(registerReader.getLocator( "txtConfirmPassword"), myInfo.getPassword());
+		Utilities.enter(registerReader.getLocator( "txtPassport"), myInfo.getPid());
+		Utilities.click(registerReader.getLocator( "btnSubmit"));
 		Utilities.waitForPageFullyLoad(PageTitle.REGISTER_THANK);
 		return new RegisterPage();
 	}

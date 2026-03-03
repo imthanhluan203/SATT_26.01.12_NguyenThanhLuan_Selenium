@@ -3,8 +3,10 @@ import Common.JsonReader;
 import Common.Utilities;
 import Constant.Constant;
 import Enum.PageTitle;
+import Enum.ObjectType;
 
-public class HomePage extends GeneralPage {	
+public class HomePage extends GeneralPage {
+	private JsonReader homeReader = new JsonReader(ObjectType.Railway, HomePage.class);
 	
 	public HomePage open() {
 		Constant.WEBDRIVER.navigate().to(Constant.RAILWAY_URL);
@@ -12,11 +14,11 @@ public class HomePage extends GeneralPage {
 	}
 	
 	public String getWelcomeMessage() {
-		return Utilities.getTextElementByJS(JsonReader.getLocator(PageTitle.HOME, "txtWelcomeMessage"));
+		return Utilities.getTextElementByJS(homeReader.getLocator( "txtWelcomeMessage"));
 	}
 	
 	public RegisterPage getCreateAccountPage() {
-		Utilities.click(JsonReader.getLocator(PageTitle.HOME, "linkCreateAccount"));
+		Utilities.click(homeReader.getLocator( "linkCreateAccount"));
 		return new RegisterPage();
 	}
 	

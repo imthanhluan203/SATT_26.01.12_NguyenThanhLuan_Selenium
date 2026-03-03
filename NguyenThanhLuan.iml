@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/DataProjects" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/PageObjects" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/TestCases" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Resource" isTestSource="false" />
     </content>
   </component>
 </module>

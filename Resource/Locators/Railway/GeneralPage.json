@@ -1,0 +1,3 @@
+{
+  "dynamicTabXpath" : "//a/span[contains(text(),'%s')]"
+}

@@ -1,0 +1,9 @@
+{
+  "txtUsername" : "//input[@id='username']",
+  "txtPassword" : "//input[@id='password']",
+  "txtEmailReset" : "//input[@id='email']",
+  "btnLogin"    : "//input[@type='submit']",
+  "btnSubmitReset" : "//input[@type='submit']",
+  "lblErrorLoginMessage" : "//p[@class='message error LoginForm']",
+  "linkforgotPassword" : "//a[text()='Forgot Password page']"
+}

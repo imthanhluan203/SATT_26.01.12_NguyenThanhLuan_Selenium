@@ -1,0 +1,4 @@
+{
+  "txtWelcomeMessage" : "//div[@class='account']",
+  "linkCreateAccount" : "//a[text()='create an account']"
+}

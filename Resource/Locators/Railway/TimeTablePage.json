@@ -1,0 +1,4 @@
+{
+  "dynamicXpathTableCell" : "((//table//tbody//tr)[%s]//td)[count(//table//thead//tr//th[text()= '%s']//preceding-sibling::th) + 1]",
+  "dynamicXpathCheckOrBook" : "((//table//tbody//tr)[%s]//td)[count(//table//thead//tr//th[text()= '%s']//preceding-sibling::th) + 1]//a"
+}

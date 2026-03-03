@@ -6,6 +6,7 @@ import java.util.List;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WindowType;
+import org.openqa.selenium.json.Json;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -14,9 +15,10 @@ import Common.Utilities;
 import Constant.Constant;
 import DataObjects.UserInfo;
 import Enum.PageTitle;
+import Enum.ObjectType;
 
 public class GuerrillaMail {
-		
+	private static JsonReader guerrillaMailReader = new JsonReader(ObjectType.Guerrillamail, GuerrillaMail.class);
 	private UserInfo userInfo;
 	
 	public GuerrillaMail(UserInfo userInfo) {
@@ -27,19 +29,19 @@ public class GuerrillaMail {
 		WebDriverWait wait = new WebDriverWait(Constant.WEBDRIVER, Duration.ofSeconds(5));
 		JavascriptExecutor js = (JavascriptExecutor) Constant.WEBDRIVER;
 		try {
-			wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(JsonReader.getLocator(PageTitle.GUERRILLA_MAIL, "checkboxMail"), 2));
-			List<WebElement> listCheckBox = Constant.WEBDRIVER.findElements(JsonReader.getLocator(PageTitle.GUERRILLA_MAIL, "checkboxMail"));
+			wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(guerrillaMailReader.getLocator("checkboxMail"), 2));
+			List<WebElement> listCheckBox = Constant.WEBDRIVER.findElements(guerrillaMailReader.getLocator("checkboxMail"));
 			listCheckBox.forEach(x ->{
 				js.executeScript("arguments[0].click();", x);
 			});
-			Utilities.click(JsonReader.getLocator(PageTitle.GUERRILLA_MAIL, "btnDelete"));
+			Utilities.click(guerrillaMailReader.getLocator( "btnDelete"));
 		} catch (Exception e) {
-			List<WebElement> listCheckBox = Constant.WEBDRIVER.findElements(JsonReader.getLocator(PageTitle.GUERRILLA_MAIL, "checkboxMail"));
+			List<WebElement> listCheckBox = Constant.WEBDRIVER.findElements(guerrillaMailReader.getLocator( "checkboxMail"));
 			listCheckBox.forEach(x ->{
 				js.executeScript("arguments[0].click();", x);
 				System.out.println(x);
 			});
-			Utilities.click(JsonReader.getLocator(PageTitle.GUERRILLA_MAIL, "btnDelete"));
+			Utilities.click(guerrillaMailReader.getLocator( "btnDelete"));
 		}
 		
 		
@@ -53,14 +55,14 @@ public class GuerrillaMail {
 	}
 	
 	public void setAnEmail() {
-		Utilities.click(JsonReader.getLocator(PageTitle.GUERRILLA_MAIL, "btnEdit"));
-		Utilities.enter(JsonReader.getLocator(PageTitle.GUERRILLA_MAIL, "txtMail"), userInfo.getUserName());
-		Utilities.click(JsonReader.getLocator(PageTitle.GUERRILLA_MAIL, "btnSetMail"));
+		Utilities.click(guerrillaMailReader.getLocator( "btnEdit"));
+		Utilities.enter(guerrillaMailReader.getLocator( "txtMail"), userInfo.getUserName());
+		Utilities.click(guerrillaMailReader.getLocator( "btnSetMail"));
 	}
 	
 	public void waitAndClickConfirmEmail() {
-		Utilities.click(JsonReader.getLocator(PageTitle.GUERRILLA_MAIL, "linkMailconfirm"));
-		Utilities.click(JsonReader.getLocator(PageTitle.GUERRILLA_MAIL, "linkConfirm"));
+		Utilities.click(guerrillaMailReader.getLocator( "linkMailconfirm"));
+		Utilities.click(guerrillaMailReader.getLocator( "linkConfirm"));
 		Utilities.waitForPageFullyLoad(PageTitle.REGISTER_CONFIRM);
 	}
 	

@@ -3,25 +3,26 @@ package Railway;
 import Common.JsonReader;
 import Common.Utilities;
 import Enum.PageTitle;
+import Enum.ObjectType;
 
 public class ResetAccountPage extends GeneralPage {	
-	
+	private static JsonReader resetReader = new JsonReader(ObjectType.Railway, ResetAccountPage.class);
 	public void resetPassWord(String password,String confirmPassword) {
-		Utilities.enter(JsonReader.getLocator(PageTitle.RESET_PASSWORD, "txtNewPassword"), password);
-		Utilities.enter(JsonReader.getLocator(PageTitle.RESET_PASSWORD, "txtConfirmPassword"), confirmPassword);
-		Utilities.click(JsonReader.getLocator(PageTitle.RESET_PASSWORD, "btnSubmitReset"));
+		Utilities.enter(resetReader.getLocator("txtNewPassword"), password);
+		Utilities.enter(resetReader.getLocator( "txtConfirmPassword"), confirmPassword);
+		Utilities.click(resetReader.getLocator( "btnSubmitReset"));
 	}
 	
 	public String getMessageReset() {
-		return Utilities.getTextElement(JsonReader.getLocator(PageTitle.RESET_PASSWORD, "txtMessageReset"));
+		return Utilities.getTextElement(resetReader.getLocator( "txtMessageReset"));
 	}
 	
 	public String getResetoken() {
-		return Utilities.getValueElement(JsonReader.getLocator(PageTitle.RESET_PASSWORD, "txtResetToken"));
+		return Utilities.getValueElement(resetReader.getLocator( "txtResetToken"));
 	}
 	
 	public String getConfirmPasswordErr() {
-		return Utilities.getTextElement(JsonReader.getLocator(PageTitle.RESET_PASSWORD, "lblConfirmPassword"));
+		return Utilities.getTextElement(resetReader.getLocator( "lblConfirmPassword"));
 	}
 	
 }

@@ -6,12 +6,14 @@ import Common.Utilities;
 import Constant.Constant;
 import Enum.PageTitle;
 import Enum.Tab;
+import Enum.ObjectType;
 
-public abstract class GeneralPage {	
-	
+public abstract class GeneralPage {
+	private static JsonReader generalReader = new JsonReader(ObjectType.Railway, GeneralPage.class);
+
     public Boolean checkTabPageExist(Tab tabName) {
     	try {
-    		Constant.WEBDRIVER.findElement(JsonReader.getLocator(PageTitle.GENERAL, "dynamicTabXpath", tabName.getValue()));
+    		Constant.WEBDRIVER.findElement(generalReader.getLocator("dynamicTabXpath", tabName.getValue()));
     		return true;
 		} catch (Exception e) {
 			return false;
@@ -19,7 +21,7 @@ public abstract class GeneralPage {
     }
     
 	public <T extends GeneralPage> T gotoPage(Tab tab,PageTitle page ,Class<T> pageClass)  {
-		Utilities.click(JsonReader.getLocator(PageTitle.GENERAL, "dynamicTabXpath", tab.getValue()));
+		Utilities.click(generalReader.getLocator( "dynamicTabXpath", tab.getValue()));
 		Utilities.waitForPageFullyLoad(page);
 		try {
 			return pageClass.getDeclaredConstructor().newInstance();

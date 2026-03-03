@@ -1,0 +1,4 @@
+{
+  "txtTableName" : "//table[@class='MyTable MedTable']//tr[@class='TableSmallHeader']//th[contains(text(), 'Ticket price from')]",
+  "dynamicXpathPriceBySeat" : "(//tr[td[text()='%1$s']]//following-sibling::tr//td)[count(//tr[td[text()='%1$s']]//td[text()='%1$s']//preceding-sibling::td) + 1]"
+}

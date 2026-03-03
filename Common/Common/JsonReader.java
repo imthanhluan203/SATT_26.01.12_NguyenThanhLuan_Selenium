@@ -6,28 +6,30 @@ import java.util.Map;
 
 import org.openqa.selenium.By;
 
-import Enum.PageTitle;
+import Enum.*;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
-
 public class JsonReader {
-	private static JsonNode ROOTNODE;
-	private static Map<String,Map<String,String>> LOCATORS;
-	static {
+	private Map<String,String> LOCATORS;
+	public <T> JsonReader(ObjectType fileSource, Class<T> myClass){
+		String folderName = fileSource.name();
+		String fileName = myClass.getSimpleName();
 		try {
 			LOCATORS = new HashMap<>();
             ObjectMapper mapper = new ObjectMapper();
-			LOCATORS = mapper.readValue(new File("DataProjects/DataObjects/locators.json"),Map.class);
+			String filepath = String.format("Resource/Locators/%s/%s.json",folderName,fileName);
+			System.out.println(filepath);
+			LOCATORS = mapper.readValue(new File(filepath),Map.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
 	}
-	public static By getLocator(PageTitle pageName,String typeOfLocator, Object... values) {
-		String element = LOCATORS.get(pageName.getValue()).get(typeOfLocator);
+	public By getLocator(String typeOfLocator, Object... values) {
+		String element = LOCATORS.get(typeOfLocator);
 		if(values.length == 0) {
 			return By.xpath(element);
 		}
 		return By.xpath(String.format(element, values));
 	}
-	
+
 }

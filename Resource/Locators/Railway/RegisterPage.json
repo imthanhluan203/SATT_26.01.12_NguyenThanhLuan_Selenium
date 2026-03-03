@@ -1,0 +1,12 @@
+{
+  "txtUsername" : "//input[@id='email']",
+  "txtPassword" : "//input[@id='password']",
+  "txtConfirmPassword" : "//input[@id='confirmPassword']",
+  "txtPassport" : "//input[@id='pid']",
+  "btnSubmit" : "//input[@type='submit']",
+  "lblErrorMessage" : "//p[@class='message error']",
+  "lblErrorInvalidPassword" : "//li[@class='password']//label[@class='validation-error']",
+  "lblErrorInvalidPid" : "//li[@class='pid-number']//label[@class='validation-error']",
+  "lblWelcomeMessage" : "//div[@id='content']/p",
+  "lblThankyouMessage" : "//h1"
+}

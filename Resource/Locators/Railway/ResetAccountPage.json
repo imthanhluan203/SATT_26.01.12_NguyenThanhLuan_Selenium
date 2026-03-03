@@ -1,0 +1,8 @@
+{
+  "txtNewPassword" : "//input[@id='newPassword']",
+  "txtConfirmPassword" : "//input[@id='confirmPassword']",
+  "txtMessageReset" : "//p[contains(@class,'message')]",
+  "txtResetToken" : "//input[@id='resetToken']",
+  "btnSubmitReset" : "//input[@value='Reset Password']",
+  "lblConfirmPassword" : "//li[@class='confirm-password']//label[@class='validation-error']"
+}
