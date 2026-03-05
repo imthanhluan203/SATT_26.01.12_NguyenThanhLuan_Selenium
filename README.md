@@ -7,7 +7,7 @@ This repository is a **Selenium + TestNG automation test project** for the **Saf
 Highlights:
 
 - Uses **Page Object Model (POM)**.
-- Locators are centralized in a **JSON file** (`locators.json`) → easier maintenance.
+- **Modular Data-Driven Locators:** Implemented a strategy that decouples XPath locators into dedicated JSON files mapped 1:1 with each Page Object, utilizing static readers to optimize memory and eliminate code duplication.
 - Supports **email confirmation / password reset** flows via **GuerrillaMail**.
 
 ---
@@ -41,6 +41,7 @@ This project is organized using multiple Eclipse “source folders” (per `.cla
 
 ```
 NguyenThanhLuan/
+NguyenThanhLuan/
 ├─ Common/
 │  ├─ Common/
 │  │  ├─ Utilities.java
@@ -57,7 +58,6 @@ NguyenThanhLuan/
 │
 ├─ DataProjects/
 │  └─ DataObjects/
-│     ├─ locators.json
 │     ├─ UserInfo.java
 │     └─ Ticket.java
 │
@@ -76,6 +76,21 @@ NguyenThanhLuan/
 │  └─ Guerrillamail/
 │     └─ GuerrillaMail.java
 │
+├─ Resource/
+│  └─ Locators/
+│     ├─ GuerrillaMail/
+│     │  └─ GuerrillaMail.json
+│     └─ Railway/
+│        ├─ BookTicketPage.json
+│        ├─ GeneralPage.json
+│        ├─ HomePage.json
+│        ├─ LoginPage.json
+│        ├─ RegisterPage.json
+│        ├─ ResetAccountPage.json
+│        ├─ TicketPage.json
+│        ├─ TicketPricePage.json
+│        └─ TimeTablePage.json
+│
 ├─ TestCases/
 │  └─ TestPackage/
 │     ├─ BaseTest.java
@@ -89,11 +104,6 @@ NguyenThanhLuan/
 ├─ testng.xml
 ├─ pom.xml
 ├─ target/         (build output)
-└─ test-output/    (TestNG report)
-```
-
-> Note: `target/` and `test-output/` are committed in the current source. For CI/GitHub usage, you should add them to `.gitignore`.
-
 ---
 
 ## 4. Architecture & execution flow
@@ -105,28 +115,39 @@ NguyenThanhLuan/
 
 ### 4.2 Data-driven locators (JSON)
 
-- All XPath locators are stored in `DataProjects/DataObjects/locators.json`.
-- `Common/JsonReader.java` loads JSON (static init) and returns Selenium `By.xpath()`.
+- 1:1 Mapping Strategy: Locators are strictly decoupled from Java code. Each Page Object automatically maps to its dedicated JSON file located at Resource/Locators/{Domain}/{PageClass}.json.
+- Dynamic Loading: Common/JsonReader.java utilizes Jackson ObjectMapper to parse only the required JSON file into memory when a Page Object is instantiated.
+
+Initialization in Page Class::
+
+```java
+// Automatically targets "Resource/Locators/Railway/LoginPage.json"
+private static JsonReader loginReader = new JsonReader(ObjectType.Railway, LoginPage.class);
+```
 
 Static locator example:
 
 ```java
-By user = JsonReader.getLocator(PageTitle.LOGIN, "txtUsername");
+// Retrieves straightforward XPath mapped to "txtUsername"
+Utilities.enter(loginReader.getLocator("txtUsername"), myUser.getName());
 ```
 
 Dynamic locator example:
 
 ```java
-By tab = JsonReader.getLocator(PageTitle.GENERAL, "dynamicTabXpath", tabName.getValue());
+// Under the hood, JsonReader applies String.format() with the provided values.
+// Example JSON value: "//div[@id='menu']//a[contains(text(), '%s')]"
+By tab = loginReader.getLocator("dynamicTabXpath", tabName.getValue());
 ```
 
-**JSON structure**:
+**JSON Structure**:
 
-- Top-level key = **Page title** (value of `PageTitle.getValue()`), e.g. `"Safe Railway - Login"`.
-- Second-level key = locator name (e.g. `txtUsername`, `btnLogin`, `dynamicXpathFormField`, ...).
-- Value = XPath string (may contain `%s` placeholders to be formatted).
+Locators are decoupled into dedicated files per Page Object, the JSON structure is simplified into a flat key-value map:
 
-> Important: if the website page title changes, update `Enum.PageTitle` and/or keys in `locators.json`.
+- **Key** = Locator name (e.g., `"txtUsername"`, `"btnLogin"`, `"dynamicTabXpath"`, ...).
+- **Value** = XPath string (may contain `%s` placeholders for dynamic formatting via `String.format()`).
+
+> **Important:** The JSON file name must exactly match the Page Object class name (e.g., `LoginPage.java` naturally maps to `LoginPage.json` under the hood via `Class<T>.getSimpleName()`). If you add a new Page Object, simply create a corresponding JSON file in the respective `Resource/Locators/{Domain}/` directory.
 
 ### 4.3 WebDriver lifecycle
 
